@@ -83,6 +83,29 @@ app.post('/checkthumbs', (req, res) => {
   })
 })
 
+app.post('/MCQ', (req, res) => {
+  let lecture = req.query.lecture_id;
+  db.createNewQuestion(lecture)
+  .then(results => {
+    questionId = results.insertId;
+    console.log('this is the questionId in the MCQ post server-side', questionId)
+    MCQ = new MCQData(lectureId, questionId);
+    //Emit the new question to students here
+    io.emit('MCQ', { questionId: questionId });
+    //This will add thumbsdata in the db after the question ends
+    db.asyncTimeout(32000, () => {
+      for (let student in MCQ.students) {
+        //console.log(`${thumbs.students[student].gmail}, ${thumbs.questionId}, ${thumbs.students[student].thumbValue}`);
+        db.createMCQData(MCQ.students[student].gmail, MCQ.questionId, MCQ.students[student].MCQAnswer);
+      }
+      db.addMCQAnswerForQuestion(questionId, thumbs.getMCQAnswer());
+    });
+    //send the response to the teacher
+    res.send({ questionId: questionId });
+  })
+})
+
+
 app.post('/endLecture', (req, res) => {
   let lecture = req.query.lectureId;
   // calculate the average for all thumbs in lecture

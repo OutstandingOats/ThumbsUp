@@ -28,12 +28,12 @@ class LectureButtons extends React.Component {
   	console.log('this.props.lectureId', this.props.lectureId);
     axios({
 	    method: 'post',
-	    url: '/checkthumbs',
+	    url: '/MCQ',
 	    params: {
 	      lecture_id: this.props.lectureId
 	    }
 	  }).then((response) => {
-  		this.props.startThumbsCheck(response.data.questionId);
+  		this.props.startMCQ(response.data.questionId);
 	  }).catch((error) => {
 	  	console.log(error);
 	  })

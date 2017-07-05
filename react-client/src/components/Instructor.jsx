@@ -31,6 +31,7 @@ class Instructor extends React.Component {
           ? <LectureButtons
               lectureId={this.props.lectureId}
               startThumbsCheck={this.props.startThumbsCheck}
+              startMCQ={this.props.startMCQ}
               endLecture={this.props.endLecture}
             />
           : this.props.questionType !== 'thumbs'

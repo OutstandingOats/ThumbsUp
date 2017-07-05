@@ -87,6 +87,69 @@ exports.getAvgThumbsForQuestionsInLecture = function(lectureId) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+exports.addMCQAnswerForQuestion = function(questionId, MCQAnswers) {
+  return new Promise ((resolve, reject) => {
+    pool.query(`UPDATE questions SET MCQ_responses=${MCQAnswers} WHERE id=${questionId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  })
+}
+
+exports.addMCQAnswerForLecture = function(lectureId, MCQAnswers) {
+  return new Promise ((resolve, reject) => {
+    pool.query(`UPDATE lectures SET MCQ_responses=${MCQAnswers} WHERE id=${lectureId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  })
+}
+
+exports.getMCQAnswersForQuestionsInLecture = function(lectureId) {
+  return new Promise ((resolve, reject) => {
+    pool.query(`SELECT MCQ_responses FROM questions WHERE lecture_id=${lectureId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Section
 */
 
@@ -101,6 +164,17 @@ exports.createThumbData = function(gmail, questionId, thumbsValue) {
     });
   })
 }
+
+exports.createMCQData = function(gmail, questionId, MCQAnswer) {
+  return new Promise ((resolve, reject) => {
+    pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQAnswer) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  })
 
 exports.getUserId = function(gmail) {
   return new Promise ((resolve, reject) => {

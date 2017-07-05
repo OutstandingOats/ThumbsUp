@@ -143,7 +143,7 @@ class App extends React.Component {
 
   startMCQ (questionId) {
     this.setState({
-      lectureStatus: 'checkingThumbs',
+      lectureStatus: 'posingMCQ',
       questionType:'mcq',
       questionId: questionId
     }, this.setCountdownInterval)
