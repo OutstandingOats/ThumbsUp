@@ -179,7 +179,6 @@ class App extends React.Component {
       submitCount: 1,
       MCQAnswer: value
     }, ()=>{
-      console.log('we are inside the callback!!')
       if (this.state.view === 'student') {
         socket.emit('MCQAnswer', { MCQAnswer: this.state.MCQAnswer });
       }

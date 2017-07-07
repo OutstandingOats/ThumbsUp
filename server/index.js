@@ -153,7 +153,7 @@ io.on('connection', function (socket) {
 
 
   socket.on('MCQAnswer', data => {
-    console.log('this is the data in socket MCQAnswer ', data);
+    console.log('this is where the multiple choice answer goes ', data);
     //console.log('here at MCQ socket answer receiver before if')
     if (MCQs) {
       //console.log('here at MCQ socket answer receiver')
