@@ -106,7 +106,7 @@ app.post('/mcq', (req, res) => {
         //console.log(`${thumbs.students[student].gmail}, ${thumbs.questionId}, ${thumbs.students[student].thumbValue}`);
         db.createMCQData(MCQ.students[student].gmail, MCQ.questionId, MCQ.students[student].MCQAnswer);
       }
-      console.log('here is the qid', questionId, 'and here is the other thang', MCQ.getMCQAnswerString())
+      //console.log('here is the qid', questionId, 'and here is the other thang', MCQ.getMCQAnswerString())
       db.addMCQAnswerForQuestion(questionId, MCQ.getMCQAnswerString());
     });
     //send the response to the teacher
@@ -153,9 +153,10 @@ io.on('connection', function (socket) {
 
 
   socket.on('MCQAnswer', data => {
-    console.log('here at MCQ socket answer receiver before if')
+    console.log('this is the data in socket MCQAnswer ', data);
+    //console.log('here at MCQ socket answer receiver before if')
     if (MCQs) {
-      console.log('here at MCQ socket answer receiver')
+      //console.log('here at MCQ socket answer receiver')
       if (!MCQAnswers.hasStudent(socket.username)) {
         let student = new Student(socket.username, socket.id);
         MCQAnswers.addStudent(student);
@@ -163,8 +164,8 @@ io.on('connection', function (socket) {
       MCQAnswers.setThumbValueForStudent(socket.username, data.MCQAnswer);
       let allAnswersInString = MCQAnswers.getMCQAnswerString();
       io.emit('allAnswersInString', { allAnswersInString: allAnswersInString });
-      console.log(`sending allAnswersInString of ${allAnswersInString}`);
-      console.log(`thumb value for ${socket.username} is ${data.MCQAnswer}`);
+      //console.log(`sending allAnswersInString of ${allAnswersInString}`);
+      //console.log(`thumb value for ${socket.username} is ${data.MCQAnswer}`);
     }
   })
 
