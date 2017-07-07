@@ -4,6 +4,7 @@ import $ from 'jquery';
 import Login from './components/Login.jsx';
 import Student from './components/Student.jsx';
 import Instructor from './components/Instructor.jsx';
+import LectuteButtons from './components/LectureButtons.jsx'
 import axios from 'axios';
 
 const io = require('socket.io-client');
@@ -21,11 +22,12 @@ class App extends React.Component {
       lectureId: '',
       questionId:'',
       thumbValue: 2,
-      countdown: 30,
+      countdown: 45,
       givenName: '',
       lectureName: '',
       questionType: '',
-      submitCount:0
+      submitCount:0,
+      MCQAnswer: 'a'
     }
   }
 
@@ -93,9 +95,23 @@ class App extends React.Component {
       this.state.countdown === 0
       ? this.clearCountdownInterval()
       : this.setState({ countdown: this.state.countdown - 1 }, () => {
-        console.log('this.state.countdown', this.state.countdown);
+        //console.log('this.state.countdown', this.state.countdown);
         if (this.state.view === 'student') {
           socket.emit('thumbValue', { thumbValue: this.state.thumbValue });
+        }
+      });
+    }, 1000)
+  }
+
+
+  setCountdownIntervalMCQ () {
+    countdownInterval = setInterval (() => {
+      this.state.countdown === 0
+      ? this.clearCountdownInterval()
+      : this.setState({ countdown: this.state.countdown - 1 }, () => {
+        //console.log('this.state.countdown', this.state.countdown);
+        if (this.state.view === 'student') {
+          socket.emit('MCQAnswer', { MCQAnswer: this.state.MCQAnswer });
         }
       });
     }, 1000)
@@ -141,6 +157,8 @@ class App extends React.Component {
     })
   }
 
+
+
   startMCQ (questionId) {
     this.setState({
       lectureStatus: 'posingMCQ',
@@ -156,11 +174,16 @@ class App extends React.Component {
     })
   }
 
-  sendAnswer () {
+  sendAnswer (value) {
     this.setState({
-      submitCount: 1
+      submitCount: 1,
+      MCQAnswer: value
     })
     console.log('sendAnswer got called' )
+
+    if (this.state.view === 'student') {
+      socket.emit('MCQAnswer', { MCQAnswer: this.state.MCQAnswer });
+    }
   }
 
   clearMCQ () {
@@ -171,11 +194,6 @@ class App extends React.Component {
     })
   }
 
-  changeMCQ (value) {
-    this.setState({
-      thumbValue: value
-    })
-  }
 
 
   render () {
@@ -199,6 +217,7 @@ class App extends React.Component {
               : this.state.view === 'student'
               ? <Student
                   thumbValue={this.state.thumbValue}
+                  MCQAnswer = {this.state.MCQAnswer}
                   changeThumbValue={this.changeThumbValue.bind(this)}
                   startThumbsCheck={this.startThumbsCheck.bind(this)}
                   startLecture={this.startLecture.bind(this)}
@@ -210,6 +229,7 @@ class App extends React.Component {
                   lectureName={this.state.lectureName}
                   questionType={this.state.questionType}
                   sendAnswer ={this.sendAnswer.bind(this)}
+                  startMCQ={this.startMCQ.bind(this)}
                 />
               : <Instructor
                   thumbValue={this.state.thumbValue}
@@ -227,6 +247,7 @@ class App extends React.Component {
                   lectureName={this.state.lectureName}
                   questionType={this.state.questionType}
                   submitCount={this.state.submitCount}
+                  MCQAnswer = {this.state.MCQAnswer}
                 />
               }
         </div>

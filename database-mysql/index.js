@@ -101,6 +101,7 @@ exports.getAvgThumbsForQuestionsInLecture = function(lectureId) {
 
 exports.addMCQAnswerForQuestion = function(questionId, MCQAnswers) {
   return new Promise ((resolve, reject) => {
+    console.log(questionId,MCQAnswers )
     pool.query(`UPDATE questions SET MCQ_responses=${MCQAnswers} WHERE id=${questionId}`, (err, results) => {
       if (err) {
         console.log(err);
@@ -174,7 +175,7 @@ exports.createMCQData = function(gmail, questionId, MCQAnswer) {
         resolve(results);
       }
     });
-  })
+  })}
 
 exports.getUserId = function(gmail) {
   return new Promise ((resolve, reject) => {

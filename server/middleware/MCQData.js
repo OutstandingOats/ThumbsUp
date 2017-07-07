@@ -13,14 +13,25 @@ class MCQData {
 
   //sets the thumb value for the student
   setThumbValueForStudent(gmail, thumbValue) {
-    this.students[gmail].thumbValue = thumbValue;
+    this.students[gmail].MCQAnswer = MCQAnswer;
+  }
+
+  getAverageThumbValue() {
+    
+    return 6;
   }
 
   //returns the average thumb value
-  getMCQAnswer() {
-
-    // CBL to adjust for MCQ answer incoming
-    return 'ab'
+  getMCQAnswerString() {
+    console.log('here in server/db helper')
+    var allAnswers = '';
+    for (let student in this.students) {
+      if ('answer here', this.students[student].MCQAnswer) {
+        console.log(this.students[student].MCQAnswer)
+        allAnswers = allAnswers.concat(this.students[student].MCQAnswer)
+      }
+    }
+    return allAnswers;
   }
 
   //check if a student is connected
@@ -39,4 +50,6 @@ class Student {
 
 
 module.exports.MCQData = MCQData;
-module.exports.Student = Student;
+//module.exports.Student = Student;
+
+

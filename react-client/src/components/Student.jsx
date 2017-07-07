@@ -21,7 +21,7 @@ class Student extends React.Component {
     
 
     socket.on('posingMCQ', (data) => {
-      props.startThumbsCheck(data.questionId);
+      props.startMCQ(data.questionId);
     })
 
     socket.on('lectureEnded', (data) => {
@@ -43,7 +43,7 @@ class Student extends React.Component {
             givenName={this.props.givenName}
             lectureName={this.props.lectureName}
           />
-        : this.props.questionType !== 'thumbs'
+        : this.props.lectureStatus !== 'posingMCQ'
         ? <ThumbInput
             countdown={this.props.countdown}
             thumbValue={this.props.thumbValue}

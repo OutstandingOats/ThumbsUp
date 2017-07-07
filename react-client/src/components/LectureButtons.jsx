@@ -9,7 +9,7 @@ class LectureButtons extends React.Component {
 
   onThumbsCheck () {
   	console.log('onThumbsCheck is being called');
-  	console.log('this.props.lectureId', this.props.lectureId);
+  	//console.log('this.props.lectureId', this.props.lectureId);
     axios({
 	    method: 'post',
 	    url: '/checkthumbs',
@@ -17,22 +17,24 @@ class LectureButtons extends React.Component {
 	      lecture_id: this.props.lectureId
 	    }
 	  }).then((response) => {
+	  	console.log(this.props.lectureId)
   		this.props.startThumbsCheck(response.data.questionId);
 	  }).catch((error) => {
 	  	console.log(error);
 	  })
   }
 
-  onMultipleChoiceQ () {
-  	console.log('onThumbsCheck is being called');
-  	console.log('this.props.lectureId', this.props.lectureId);
+  onMCQ () {
+  	console.log('onMCQis being called');
+  	//console.log('this.props.lectureId', this.props.lectureId);
     axios({
 	    method: 'post',
-	    url: '/MCQ',
+	    url: '/mcq',
 	    params: {
 	      lecture_id: this.props.lectureId
 	    }
 	  }).then((response) => {
+	  	console.log('here in MCQ stuff then')
   		this.props.startMCQ(response.data.questionId);
 	  }).catch((error) => {
 	  	console.log(error);
@@ -52,7 +54,7 @@ class LectureButtons extends React.Component {
 				<div className="col-xs-12 text-center">
 					<div
 						className="btn btn-lg btn-success"
-						onClick={this.onMultipleChoiceQ.bind(this)}>
+						onClick={this.onMCQ.bind(this)}>
 						Multiple Choice Question
 					</div>
 				</div>

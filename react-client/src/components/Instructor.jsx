@@ -14,10 +14,11 @@ class Instructor extends React.Component {
     console.log('props', props);
     socket.on('averageThumbValue', (data) => {
       if (props.view === 'instructor') {
-        console.log('data', data);
+        //console.log('data', data);
         props.changeThumbValue(data.averageThumbValue);
       }
     });
+    //console.log('this is the q type', this.props.questionType)
   }
 
   render () {
@@ -34,7 +35,7 @@ class Instructor extends React.Component {
               startMCQ={this.props.startMCQ}
               endLecture={this.props.endLecture}
             />
-          : this.props.questionType !== 'thumbs'
+          : this.props.questionType === 'thumbs'
           ? <ThumbsChecker
             startLecture={this.props.startLecture}
             lectureId={this.props.lectureId}

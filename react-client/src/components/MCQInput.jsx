@@ -25,7 +25,7 @@ class ThumbInput extends React.Component {
     this.setState({
       submitted:true
     })
-    this.props.sendAnswer()
+    this.props.sendAnswer(this.state.answer)
     console.log('here is the submission event', this.state.answer)
 
   }
