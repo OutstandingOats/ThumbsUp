@@ -66,7 +66,7 @@ class LectureButtons extends React.Component {
               <div
                 className="btn question-option"
                 key={i}
-                onClick={this.onMultipleChoiceQ.bind(this)}>
+                onClick={this.onMCQ.bind(this)}>
                 Ask: {el.title}
               </div>
             );
