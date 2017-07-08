@@ -37,9 +37,11 @@ class Instructor extends React.Component {
           answer4: 'Sweet potato',
           correctAnswer: 1
         }
-      ]
-
+      ],
+      currentQuestion: '',
+      currentOptions: []
     };
+
     socket.on('averageThumbValue', (data) => {
       if (props.view === 'instructor') {
 
@@ -55,6 +57,14 @@ class Instructor extends React.Component {
     });
     //console.log('this is the q type', this.props.questionType)
   }
+
+  changeQuestion(e) {
+    this.setState({
+      currentQuestion: e.title,
+      currentOptions: [e.answer1, e.answer2, e.answer3, e.answer4]
+    });
+  }
+
 
   render() {
     return (
@@ -78,7 +88,9 @@ class Instructor extends React.Component {
               startThumbsCheck={this.props.startThumbsCheck}
               startMCQ={this.props.startMCQ}
               endLecture={this.props.endLecture}
+              changeQuestion={this.changeQuestion.bind(this)}
             />
+
 
           : this.props.questionType === 'thumbs'
           ? <ThumbsChecker
@@ -98,6 +110,7 @@ class Instructor extends React.Component {
             submitCount={this.props.submitCount}
             questions={this.state.questions}
           />
+
 
         }
       </div>
