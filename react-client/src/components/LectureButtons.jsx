@@ -4,7 +4,9 @@ import axios from 'axios';
 class LectureButtons extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+
+    };
   }
 
   onThumbsCheck() {
@@ -55,7 +57,12 @@ class LectureButtons extends React.Component {
               <div
                 className="btn question-option"
                 key={i}
-                onClick={this.onMultipleChoiceQ.bind(this)}>
+                onClick={() => {
+                  console.log('inside onClick function');
+                  this.onMultipleChoiceQ.call(this);
+                  this.props.changeQuestion(el);
+                }
+                }>
                 Ask: {el.title}
               </div>
             );
