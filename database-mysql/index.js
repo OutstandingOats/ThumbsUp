@@ -35,9 +35,10 @@ exports.createNewLecture = function (name) {
   });
 };
 
-exports.createNewQuestion = function (lectureId) {
+exports.createNewQuestion = function (lectureId, question, answer1, answer2, answer3, answer4) {
+  console.log('create new question is happening!!! ')
   return new Promise((resolve, reject) => {
-    pool.query(`INSERT INTO questions (lectureId) VALUES ("${lectureId}")`, (err, results) => {
+    pool.query(`INSERT INTO questions (lectureId, question, answer1, answer2, answer3, answer4) VALUES ("${lectureId}", "${question}", "${answer1}", "${answer2}", "${answer3}", "${answer4}")`, (err, results) => {
       if (err) {
         console.log(err);
       } else {
@@ -46,9 +47,6 @@ exports.createNewQuestion = function (lectureId) {
     });
   });
 };
-
-/* Section
-*/
 
 exports.addAvgThumbForQuestion = function (questionId, avgThumbValue) {
   return new Promise((resolve, reject) => {
@@ -86,9 +84,42 @@ exports.getAvgThumbsForQuestionsInLecture = function (lectureId) {
   });
 };
 
+exports.addMCQAnswerForQuestion = function (questionId, MCQAnswers) {
+  return new Promise((resolve, reject) => {
+    console.log(questionId, MCQAnswers);
+    pool.query(`UPDATE questions SET MCQ_responses=${MCQAnswers} WHERE id=${questionId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
-/* Section
-*/
+exports.addMCQAnswerForLecture = function (lectureId, MCQAnswers) {
+  return new Promise((resolve, reject) => {
+    pool.query(`UPDATE lectures SET MCQ_responses=${MCQAnswers} WHERE id=${lectureId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+exports.getMCQAnswersForQuestionsInLecture = function (lectureId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT MCQ_responses FROM questions WHERE lectureID=${lectureId}`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
 exports.createThumbData = function (gmail, questionId, thumbsValue) {
   return new Promise((resolve, reject) => {
@@ -102,8 +133,22 @@ exports.createThumbData = function (gmail, questionId, thumbsValue) {
   });
 };
 
+
+exports.createMCQData = function (gmail, questionId, MCQAnswer) {
+  return new Promise((resolve, reject) => {
+    pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQ_value) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 exports.getUserId = function (gmail) {
   return new Promise((resolve, reject) => {
+
     pool.query(`SELECT id FROM users WHERE gmail = "${gmail}"`, (err, results) => {
       if (err) {
         console.log(err);
@@ -126,13 +171,6 @@ exports.addStudent = function (first, last, gmail) {
     });
   });
 };
-
-// test
-
-/*
-=======
-/* Section
-*/
 
 exports.asyncTimeout = function (time, callback) {
   return new Promise((resolve, reject) => {
@@ -189,11 +227,37 @@ exports.getQuestions = function (lectureId) {
   });
 };
 
+exports.getLectures = function () {
+  return new Promise((resolve, reject) => {
+    pool.query(`select * from lectures`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+
 // pull all answers for questionId 
 
 exports.getAnswers = function (questionId) {
   return new Promise((resolve, reject) => {
     pool.query(`select * from answers where answers.questionId = "${questionId}"`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+// get the question
+exports.getQuestion = function (questionId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`select * from questions where questionId = "${questionId}"`, (err, results) => {
       if (err) {
         console.log(err);
       } else {

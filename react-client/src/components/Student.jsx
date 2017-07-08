@@ -17,7 +17,14 @@ class Student extends React.Component {
 
     socket.on('checkingThumbs', (data) => {
       props.startThumbsCheck(data.questionId);
+
     });
+
+
+    socket.on('posingMCQ', (data) => {
+      props.startMCQ(data.questionId);
+    });
+
 
     socket.on('lectureEnded', (data) => {
       props.endLectureStudent();
@@ -26,7 +33,7 @@ class Student extends React.Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row" style={{fontFamily: 'Times New Roman', fontWeight:'bold'}}>
         {this.props.lectureStatus === 'lectureNotStarted'
           ? <Waiting
             waitingFor={'lecture'}
@@ -38,7 +45,7 @@ class Student extends React.Component {
               givenName={this.props.givenName}
               lectureName={this.props.lectureName}
             />
-            : this.props.questionType !== 'thumbs'
+            : this.props.lectureStatus !== 'posingMCQ'
               ? <ThumbInput
                 countdown={this.props.countdown}
                 thumbValue={this.props.thumbValue}
@@ -52,6 +59,7 @@ class Student extends React.Component {
                 sendAnswer={this.props.sendAnswer}
               />
         }
+
       </div>
     );
   }
