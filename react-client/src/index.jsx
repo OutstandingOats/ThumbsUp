@@ -193,7 +193,7 @@ class App extends React.Component {
       if (this.state.view === 'student') {
         socket.emit('MCQAnswer', { MCQAnswer: this.state.MCQAnswer });
       }
-    })
+    })}
     //console.log('sendAnswer got called' )
 
 
@@ -229,14 +229,15 @@ class App extends React.Component {
             </div>
           </div>
         </nav>
+
         <div className="container-fluid main">
+
           {this.state.view === 'login'
             ? <Login
               onSignIn={this.onSignIn.bind(this)}
             />
             : this.state.view === 'student'
               ? <Student
-
                   thumbValue={this.state.thumbValue}
                   MCQAnswer = {this.state.MCQAnswer}
                   changeThumbValue={this.changeThumbValue.bind(this)}
@@ -275,7 +276,8 @@ class App extends React.Component {
 
         </div>
       </div>
-    );
+
+    );}
   }
 
 

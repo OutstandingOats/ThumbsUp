@@ -166,7 +166,7 @@ exports.createThumbData = function (gmail, questionId, thumbsValue) {
   });
 };
 
-<<<<<<< HEAD
+
 exports.createMCQData = function(gmail, questionId, MCQAnswer) {
   return new Promise ((resolve, reject) => {
     pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQ_value) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
@@ -180,10 +180,7 @@ exports.createMCQData = function(gmail, questionId, MCQAnswer) {
 
 exports.getUserId = function(gmail) {
   return new Promise ((resolve, reject) => {
-=======
-exports.getUserId = function (gmail) {
-  return new Promise((resolve, reject) => {
->>>>>>> a006cf52e8b4bb53f7075108f77815cef5be22ca
+
     pool.query(`SELECT id FROM users WHERE gmail = "${gmail}"`, (err, results) => {
       if (err) {
         console.log(err);
