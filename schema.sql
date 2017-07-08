@@ -4,10 +4,16 @@ CREATE DATABASE IF NOT EXISTS thumbscheck;
 
 USE thumbscheck;
 
--- DROP TABLE users;
--- DROP TABLE thumbs;
--- DROP TABLE questions;
--- DROP TABLE lectures;
+/*  Execute this file from the command line by typing:
+ *    mysql -u root < schema.sql
+ *  to create the database and the tables.
+ */
+
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS thumbs;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS lectures;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
@@ -38,7 +44,7 @@ CREATE TABLE MCQAnswers (
 
 CREATE TABLE questions (
   id INT NOT NULL AUTO_INCREMENT,
-  lecture_id INT NOT NULL,
+  lectureId INT NOT NULL,
   average_thumb_question DEC(4,2),
   MCQ_responses VARCHAR(100),
   PRIMARY KEY (ID)
@@ -51,6 +57,7 @@ CREATE TABLE lectures (
   MCQ_responses VARCHAR(100),
   PRIMARY KEY (ID)
 );
+
 
 /*
  *
@@ -83,3 +90,9 @@ INSERT INTO users (first_name, last_name, gmail, user_type) VALUES ("Jake", "Gob
  * CLEARDB_DATABASE_URL
  * mysql://be6789ba34707e:02c8f71e@us-cdbr-iron-east-03.cleardb.net/heroku_57eb1e9aa24d7a7?reconnect=true
  */
+
+
+INSERT INTO users (first_name, last_name, gmail, user_type) VALUES ("Nick", "Akey", "nicktheflanders@gmail.com", "INSTRUCTOR");
+INSERT INTO users (first_name, last_name, gmail, user_type) VALUES ("Karina", "Dalca", "karinadalca@gmail.com", "INSTRUCTOR");
+INSERT INTO users (first_name, last_name, gmail, user_type) VALUES ("Gunpreet", "Singh", "gunpreetskhosa@gmail.com", "INSTRUCTOR");
+

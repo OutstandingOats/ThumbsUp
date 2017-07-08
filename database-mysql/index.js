@@ -1,18 +1,18 @@
 var mysql = require('mysql');
 
-var pool  = mysql.createPool({
-  connectionLimit : 10,
-  host     : process.env.DB_HOST || 'localhost',
-  user     : process.env.DB_USERNAME || 'root',
-  password : process.env.DB_PASSWORD || '',
-  database : process.env.DB_NAME || 'thumbscheck'
+var pool = mysql.createPool({
+  connectionLimit: 10,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USERNAME || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'thumbscheck'
 });
 
 
 console.log(`db connection: DB_HOST ${process.env.DB_HOST}, DB_USERNAME ${process.env.DB_USERNAME}, DB_PASSWORD ${process.env.DB_PASSWORD}, DB_NAME ${process.env.DB_NAME}`);
 
-exports.getUserType = function(gmail) {
-  return new Promise ((resolve, reject) => {
+exports.getUserType = function (gmail) {
+  return new Promise((resolve, reject) => {
     pool.query(`SELECT user_type FROM users WHERE gmail = "${gmail}"`, (err, results) => {
       if (err) {
         console.log(err);
@@ -20,11 +20,11 @@ exports.getUserType = function(gmail) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
-exports.createNewLecture = function(name) {
-  return new Promise ((resolve, reject) => {
+exports.createNewLecture = function (name) {
+  return new Promise((resolve, reject) => {
     pool.query(`INSERT INTO lectures (name) VALUES ("${name}")`, (err, results) => {
       if (err) {
         console.log(err);
@@ -32,26 +32,26 @@ exports.createNewLecture = function(name) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
-exports.createNewQuestion = function(lectureId) {
-  return new Promise ((resolve, reject) => {
-    pool.query(`INSERT INTO questions (lecture_id) VALUES ("${lectureId}")`, (err, results) => {
+exports.createNewQuestion = function (lectureId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`INSERT INTO questions (lectureId) VALUES ("${lectureId}")`, (err, results) => {
       if (err) {
         console.log(err);
       } else {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
 /* Section
 */
 
-exports.addAvgThumbForQuestion = function(questionId, avgThumbValue) {
-  return new Promise ((resolve, reject) => {
+exports.addAvgThumbForQuestion = function (questionId, avgThumbValue) {
+  return new Promise((resolve, reject) => {
     pool.query(`UPDATE questions SET average_thumb_question=${avgThumbValue} WHERE id=${questionId}`, (err, results) => {
       if (err) {
         console.log(err);
@@ -59,11 +59,11 @@ exports.addAvgThumbForQuestion = function(questionId, avgThumbValue) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
-exports.addAvgThumbForLecture = function(lectureId, avgThumbValue) {
-  return new Promise ((resolve, reject) => {
+exports.addAvgThumbForLecture = function (lectureId, avgThumbValue) {
+  return new Promise((resolve, reject) => {
     pool.query(`UPDATE lectures SET average_thumb_lecture=${avgThumbValue} WHERE id=${lectureId}`, (err, results) => {
       if (err) {
         console.log(err);
@@ -71,20 +71,20 @@ exports.addAvgThumbForLecture = function(lectureId, avgThumbValue) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
-exports.getAvgThumbsForQuestionsInLecture = function(lectureId) {
-  return new Promise ((resolve, reject) => {
-    pool.query(`SELECT average_thumb_question FROM questions WHERE lecture_id=${lectureId}`, (err, results) => {
+exports.getAvgThumbsForQuestionsInLecture = function (lectureId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT average_thumb_question FROM questions WHERE lectureId=${lectureId}`, (err, results) => {
       if (err) {
         console.log(err);
       } else {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
 
 
@@ -154,8 +154,8 @@ exports.getMCQAnswersForQuestionsInLecture = function(lectureId) {
 /* Section
 */
 
-exports.createThumbData = function(gmail, questionId, thumbsValue) {
-  return new Promise ((resolve, reject) => {
+exports.createThumbData = function (gmail, questionId, thumbsValue) {
+  return new Promise((resolve, reject) => {
     pool.query(`INSERT INTO thumbs (user_id, question_id, thumb_value) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${thumbsValue})`, (err, results) => {
       if (err) {
         console.log(err);
@@ -163,9 +163,10 @@ exports.createThumbData = function(gmail, questionId, thumbsValue) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
+<<<<<<< HEAD
 exports.createMCQData = function(gmail, questionId, MCQAnswer) {
   return new Promise ((resolve, reject) => {
     pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQ_value) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
@@ -179,6 +180,10 @@ exports.createMCQData = function(gmail, questionId, MCQAnswer) {
 
 exports.getUserId = function(gmail) {
   return new Promise ((resolve, reject) => {
+=======
+exports.getUserId = function (gmail) {
+  return new Promise((resolve, reject) => {
+>>>>>>> a006cf52e8b4bb53f7075108f77815cef5be22ca
     pool.query(`SELECT id FROM users WHERE gmail = "${gmail}"`, (err, results) => {
       if (err) {
         console.log(err);
@@ -186,12 +191,12 @@ exports.getUserId = function(gmail) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
 
-exports.addStudent = function(first, last, gmail) {
-  return new Promise ((resolve, reject) => {
+exports.addStudent = function (first, last, gmail) {
+  return new Promise((resolve, reject) => {
     pool.query(`INSERT INTO users (first_name, last_name, gmail, user_type) VALUES ("${first}", "${last}", "${gmail}", "STUDENT");`, (err, results) => {
       if (err) {
         console.log(err);
@@ -199,8 +204,8 @@ exports.addStudent = function(first, last, gmail) {
         resolve(results);
       }
     });
-  })
-}
+  });
+};
 
 // test
 
@@ -209,7 +214,7 @@ exports.addStudent = function(first, last, gmail) {
 /* Section
 */
 
-exports.asyncTimeout = function(time, callback) {
+exports.asyncTimeout = function (time, callback) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       let results = 'no callback';
@@ -219,23 +224,61 @@ exports.asyncTimeout = function(time, callback) {
       resolve(results);
     }, time || 1000);
   });
-}
+};
 
-/* Test Functions
 
-// 1
-var prom1 = exports.getUserId('caaker.0@gmail.com');
-prom1.then(results => {
-  console.log(results[0].id);
-});
+// add question to the data base 
+exports.createQuestion = function (lectureId, question) {
+  return new Promise((resolve, reject) => {
+    pool.query(`INSERT INTO questions (lectureId, questionName) VALUES ("${lectureId}", "${question}")`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
-//2
-var prom2 = exports.createThumbData(4, 1, 5);
-prom2.then(results => {
-  console.log(results);
-});
 
-// 3
-asyncTimeout(3000, function(){console.log('done')}).then(function(){console.log('continue')})
+// add answers to the db 
+exports.addAnswers = function (questionId, options) {
+  return new Promise((resolve, reject) => {
+    pool.query(`INSERT INTO answers (questionId, option1, option2, option3, option4) VALUES ("${questionId}",${options[0]}","${options[1]}","${options[2]}","${options[3]}",)`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
-*/
+
+// pull questions from the db for the lecture 
+
+exports.getQuestions = function (lectureId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`select * from questions where questions.lectureId = "${lectureId}"`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+// pull all answers for questionId 
+
+exports.getAnswers = function (questionId) {
+  return new Promise((resolve, reject) => {
+    pool.query(`select * from answers where answers.questionId = "${questionId}"`, (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};

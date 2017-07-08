@@ -20,15 +20,16 @@ class App extends React.Component {
       tokenId: '',
       lectureStatus: 'lectureNotStarted',
       lectureId: '',
-      questionId:'',
+      questionId: '',
       thumbValue: 2,
       countdown: 45,
       givenName: '',
       lectureName: '',
       questionType: '',
-      submitCount:0,
-      MCQAnswer: ''
-    }
+      MCQAnswer: '',
+      submitCount: 0
+    };
+
   }
 
   componentDidMount() {
@@ -44,30 +45,30 @@ class App extends React.Component {
         tokenId: tokenId
       }
     })
-    .then(result => {
-      if (result.data[0].user_type === 'STUDENT') {
-        this.setState({ view: 'student'});
-      } else if (result.data[0].user_type === 'INSTRUCTOR') {
-        this.setState({ view: 'instructor'});
-      }
-      this.setState({ givenName: googleUser.profileObj.givenName })
-      socket.emit('username', { username: googleUser.profileObj.email })
-      if(result.data[0].user_type === 'INSTRUCTOR'){
-        socket.emit('instructor', { username: googleUser.profileObj.email })
-      }
-    });
+      .then(result => {
+        if (result.data[0].user_type === 'STUDENT') {
+          this.setState({ view: 'student' });
+        } else if (result.data[0].user_type === 'INSTRUCTOR') {
+          this.setState({ view: 'instructor' });
+        }
+        this.setState({ givenName: googleUser.profileObj.givenName });
+        socket.emit('username', { username: googleUser.profileObj.email });
+        if (result.data[0].user_type === 'INSTRUCTOR') {
+          socket.emit('instructor', { username: googleUser.profileObj.email });
+        }
+      });
 
   }
 
-  startLecture (lectureId, lectureName) {
+  startLecture(lectureId, lectureName) {
     this.setState({
       lectureStatus: 'lectureStarted',
       lectureId: lectureId,
       lectureName: lectureName
-    })
+    });
   }
 
-  endLecture () {
+  endLecture() {
     let lectureId = this.state.lectureId;
     console.log(lectureId);
     axios({
@@ -80,19 +81,20 @@ class App extends React.Component {
       this.setState({
         lectureStatus: 'lectureNotStarted',
         lectureId: ''
-      })
-    })
+      });
+    });
   }
 
-  endLectureStudent () {
+  endLectureStudent() {
     this.setState({
       lectureStatus: 'lectureNotStarted'
-    })
+    });
   }
 
-  setCountdownInterval () {
-    countdownInterval = setInterval (() => {
+  setCountdownInterval() {
+    countdownInterval = setInterval(() => {
       this.state.countdown === 0
+
       ? this.clearCountdownInterval()
       : this.setState({ countdown: this.state.countdown - 1 }, () => {
         //console.log('this.state.countdown', this.state.countdown);
@@ -118,43 +120,44 @@ class App extends React.Component {
   }
 
   clearCountdownInterval () {
+
     clearInterval(countdownInterval);
     if (this.state.view === 'student') {
       this.setState({
         lectureStatus: 'lectureStarted',
         questionId: '',
         countdown: 30
-      })
+      });
     }
   }
 
-  startThumbsCheck (questionId) {
+  startThumbsCheck(questionId) {
     this.setState({
       lectureStatus: 'checkingThumbs',
-      questionType:'thumbs',
+      questionType: 'thumbs',
       questionId: questionId
-    }, this.setCountdownInterval)
+    }, this.setCountdownInterval);
   }
 
-  endThumbsCheck () {
+  endThumbsCheck() {
     this.setState({
       lectureStatus: 'lectureStarted',
       questionId: ''
-    })
+    });
   }
 
-  clearThumbsCheck () {
+  clearThumbsCheck() {
     this.setState({
       lectureStatus: 'lectureStarted',
       questionId: '',
       countdown: 30
-    })
+    });
   }
 
-  changeThumbValue (value) {
+  changeThumbValue(value) {
     this.setState({
       thumbValue: value
-    })
+    });
   }
    changeMCQ (value) {
     this.setState({
@@ -164,20 +167,23 @@ class App extends React.Component {
 
 
 
-  startMCQ (questionId) {
+  startMCQ(questionId) {
     this.setState({
+
       lectureStatus: 'posingMCQ',
       questionType:'mcq',
+
       questionId: questionId
-    }, this.setCountdownInterval)
+    }, this.setCountdownInterval);
   }
 
-   endMCQ () {
+  endMCQ() {
     this.setState({
       lectureStatus: 'lectureStarted',
       questionId: ''
-    })
+    });
   }
+
 
   sendAnswer (value) {
     this.setState({
@@ -191,19 +197,26 @@ class App extends React.Component {
     //console.log('sendAnswer got called' )
 
 
-  }
 
-  clearMCQ () {
+
+  clearMCQ() {
     this.setState({
       lectureStatus: 'lectureStarted',
       questionId: '',
       countdown: 30
-    })
+    });
+  }
+
+
+  changeMCQ(value) {
+    this.setState({
+      thumbValue: value
+    });
   }
 
 
 
-  render () {
+  render() {
     return (
       <div>
         <nav className="navbar navbar-default navbar-static-top">
@@ -217,12 +230,13 @@ class App extends React.Component {
           </div>
         </nav>
         <div className="container-fluid main">
-            {this.state.view === 'login'
-              ? <Login
-                  onSignIn={this.onSignIn.bind(this)}
-                />
-              : this.state.view === 'student'
+          {this.state.view === 'login'
+            ? <Login
+              onSignIn={this.onSignIn.bind(this)}
+            />
+            : this.state.view === 'student'
               ? <Student
+
                   thumbValue={this.state.thumbValue}
                   MCQAnswer = {this.state.MCQAnswer}
                   changeThumbValue={this.changeThumbValue.bind(this)}
@@ -258,10 +272,11 @@ class App extends React.Component {
                   MCQAnswer = {this.state.MCQAnswer}
                 />
               }
+
         </div>
       </div>
-    )
+    );
   }
-}
+
 
 ReactDOM.render(<App />, document.getElementById('app'));

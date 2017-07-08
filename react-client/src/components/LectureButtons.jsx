@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 
 class LectureButtons extends React.Component {
-	constructor (props) {
-		super(props);
-		this.state = {};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
 
   onThumbsCheck () {
   	console.log('onThumbsCheck is being called');
@@ -56,18 +57,31 @@ class LectureButtons extends React.Component {
 						className="btn btn-lg btn-success"
 						onClick={this.onMCQ.bind(this)}>
 						Multiple Choice Question
+
 					</div>
-				</div>
-				<div className="col-xs-12 text-center">
-					<div
-						className="btn btn-lg btn-danger"
-						onClick={this.props.endLecture}>
-						End Lecture
+        </div>
+        <div className="col-xs-12 text-center">
+          {this.props.questions.map((el, i) => {
+            return (
+              <div
+                className="btn question-option"
+                key={i}
+                onClick={this.onMultipleChoiceQ.bind(this)}>
+                Ask: {el.title}
+              </div>
+            );
+          })}
+        </div>
+        <div className="col-xs-12 text-center">
+          <div
+            className="btn btn-lg btn-danger"
+            onClick={this.props.endLecture}>
+            End Lecture
 					</div>
-				</div>
-		  </div>
-		)
-	}
+        </div>
+      </div>
+    );
+  }
 
 }
 
