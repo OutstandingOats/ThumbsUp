@@ -18,6 +18,13 @@ class Instructor extends React.Component {
         props.changeThumbValue(data.averageThumbValue);
       }
     });
+
+    socket.on('allAnswersInString', (data) => {
+      if (props.view === 'instructor') {
+        //console.log('data', data);
+        props.changeMCQ(data.allAnswersInString);
+      }
+    });
     //console.log('this is the q type', this.props.questionType)
   }
 
@@ -44,6 +51,7 @@ class Instructor extends React.Component {
             clearThumbsCheck={this.props.clearThumbsCheck}
           />
           : <MCQChecker
+            MCQAnswer = {this.props.MCQAnswer}
             startLecture={this.props.startLecture}
             lectureId={this.props.lectureId}
             countdown={this.props.countdown}

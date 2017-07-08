@@ -155,17 +155,18 @@ io.on('connection', function (socket) {
   socket.on('MCQAnswer', data => {
     console.log('this is where the multiple choice answer goes ', data);
     //console.log('here at MCQ socket answer receiver before if')
-    if (MCQs) {
+    if (MCQ) {
       //console.log('here at MCQ socket answer receiver')
-      if (!MCQAnswers.hasStudent(socket.username)) {
+      if (!MCQ.hasStudent(socket.username)) {
         let student = new Student(socket.username, socket.id);
-        MCQAnswers.addStudent(student);
+        MCQ.addStudent(student);
       }
-      MCQAnswers.setThumbValueForStudent(socket.username, data.MCQAnswer);
-      let allAnswersInString = MCQAnswers.getMCQAnswerString();
+      MCQ.setThumbValueForStudent(socket.username, data.MCQAnswer);
+      let allAnswersInString = MCQ.getMCQAnswerString();
       io.emit('allAnswersInString', { allAnswersInString: allAnswersInString });
-      //console.log(`sending allAnswersInString of ${allAnswersInString}`);
-      //console.log(`thumb value for ${socket.username} is ${data.MCQAnswer}`);
+      console.log(`sending allAnswersInString of ${allAnswersInString}`);
+      console.log(`MCQ value for ${socket.username} is ${data.MCQAnswer}`);
+      console.log(`huge class for ${socket.username} is ${MCQ.students[socket.username].MCQAnswer }`);
     }
   })
 

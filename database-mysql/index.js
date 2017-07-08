@@ -168,7 +168,7 @@ exports.createThumbData = function(gmail, questionId, thumbsValue) {
 
 exports.createMCQData = function(gmail, questionId, MCQAnswer) {
   return new Promise ((resolve, reject) => {
-    pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQAnswer) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
+    pool.query(`INSERT INTO MCQAnswers (user_id, question_id, MCQ_value) VALUES ((SELECT id FROM users WHERE gmail="${gmail}"), ${questionId}, ${MCQAnswer})`, (err, results) => {
       if (err) {
         console.log(err);
       } else {

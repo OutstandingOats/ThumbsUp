@@ -18,13 +18,9 @@ class MCQChecker extends React.Component {
 	render () {
 		return (
 			
-			<div> Current Answer Distribution 
-			{this.state.numResponses === 0 && <h3>a: 0%</h3>} <br/>
-			{this.state.numResponses === 0 && <h3>b: 0%</h3> }<br/>
-			{this.state.numResponses === 0 ? <h3>c: 0%</h3> : <h3>100%</h3> }<br/>
-			{this.state.numResponses === 0 && <h3>d: 0%</h3> }<br/>
-			{this.state.numResponses === 0 && <h3>e:  0%</h3> }<br/>
-			{this.state.numResponses === 0 && <h3>f: 0%</h3> }<br/>
+			<div> Submitted Answers: 
+			{this.state.numResponses === 0 && <h3>{this.props.MCQAnswer}</h3>} <br/>
+
 			
 
 			</div>

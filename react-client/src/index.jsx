@@ -27,7 +27,7 @@ class App extends React.Component {
       lectureName: '',
       questionType: '',
       submitCount:0,
-      MCQAnswer: 'a'
+      MCQAnswer: ''
     }
   }
 
@@ -156,6 +156,11 @@ class App extends React.Component {
       thumbValue: value
     })
   }
+   changeMCQ (value) {
+    this.setState({
+      MCQAnswer: value
+    })
+  }
 
 
 
@@ -243,6 +248,7 @@ class App extends React.Component {
                   startMCQ={this.startMCQ.bind(this)}
                   countdown={this.state.countdown}
                   changeThumbValue={this.changeThumbValue.bind(this)}
+                  changeMCQ={this.changeMCQ.bind(this)}
                   clearThumbsCheck={this.clearThumbsCheck.bind(this)}
                   view={this.state.view}
                   givenName={this.state.givenName}

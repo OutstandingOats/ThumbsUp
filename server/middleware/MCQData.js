@@ -4,6 +4,7 @@ class MCQData {
     this.questionId = questionId;
     this.students = {};
     this.instructor = instructor;
+
   }
 
   //adds a student to the data structure
@@ -12,7 +13,7 @@ class MCQData {
   }
 
   //sets the thumb value for the student
-  setThumbValueForStudent(gmail, thumbValue) {
+  setThumbValueForStudent(gmail, MCQAnswer) {
     this.students[gmail].MCQAnswer = MCQAnswer;
   }
 
@@ -44,7 +45,7 @@ class Student {
   constructor(gmail, socketId) {
     this.gmail = gmail;
     this.socketId = socketId;
-    this.thumbValue = null;
+    this.MCQAnswer = null;
   }
 }
 
