@@ -66,7 +66,6 @@ app.post('/lecture', (req, res) => {
 });
 
 app.post('/checkthumbs', (req, res) => {
-
   let lecture = req.query.lectureId;
   db.createNewQuestion(lecture)
     .then(results => {
@@ -101,13 +100,14 @@ app.post('/mcq', (req, res) => {
       //Emit the new question to students here
       io.emit('posingMCQ', { questionId: questionId });
       //This will add thumbsdata in the db after the question ends
-      db.asyncTimeout(32000, () => {
+      db.asyncTimeout(10000, () => {
+        console.log('this is the OBJECT after the set timeout!! ', MCQ)
         for (let student in MCQ.students) {
           //console.log(`${thumbs.students[student].gmail}, ${thumbs.questionId}, ${thumbs.students[student].thumbValue}`);
           db.createMCQData(MCQ.students[student].gmail, MCQ.questionId, MCQ.students[student].MCQAnswer);
         }
         //console.log('here is the qid', questionId, 'and here is the other thang', MCQ.getMCQAnswerString())
-        db.addMCQAnswerForQuestion(questionId, MCQ.getMCQAnswerString());
+        //db.addMCQAnswerForQuestion(questionId, MCQ.getMCQAnswerString());
       });
       //send the response to the teacher
       res.send({ questionId: questionId });
@@ -271,10 +271,6 @@ app.get('/questionsByLectureName', (req, res) => {
     .status(200)
     .send(results);
   })
-
-
-
-
 });
 
 
@@ -300,10 +296,11 @@ app.get('/lectures', (req, res) => {
 // get answers 
 
 app.get('/answers', (req, res) => {
-  var questionId = req.body.questionId;
-
-  return db.getAnswers(questionId)
-    .then(results => {
-      res.status(200).send(result);
-    });
+  //var questionId = req.body.questionId;
+  return db.getAnswers()
+  .then(results => {
+    res
+    .status(200)
+    .send(results);
+  });
 });

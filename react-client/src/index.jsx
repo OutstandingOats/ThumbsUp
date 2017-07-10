@@ -22,7 +22,7 @@ class App extends React.Component {
       lectureId: '',
       questionId: '',
       thumbValue: 2,
-      countdown: 23,
+      countdown: 4,
       givenName: '',
       lectureName: '',
       questionType: '',
@@ -130,6 +130,11 @@ class App extends React.Component {
 
   setLectureId(id){
     this.setState({lectureId: id})
+  }
+
+  closeChart(){
+    console.log('close chart is firing ')
+    this.setState({lectureStatus: 'lectureStarted'})
   }
 
   endLecture() {
@@ -319,6 +324,7 @@ class App extends React.Component {
                 startMCQ={this.startMCQ.bind(this)}
               />
               : <Instructor
+                closeChart={this.closeChart.bind(this)}
                 questions={this.state.questions}
                 setLectureId={this.state.setLectureId}
                 thumbValue={this.state.thumbValue}
